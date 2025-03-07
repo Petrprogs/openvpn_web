@@ -9,3 +9,12 @@ Home page
 Connected clients
 
 ![Connected clients](https://github.com/user-attachments/assets/9718c20a-2583-4f56-a2f7-85c27fc29fd9)
+
+
+## TODO
+* Clients creation
+* Improve status getter algorithm 
+
+## Contribution
+
+This project is in early alpha state so there are many bugs exist. Feel free to create issues and PRs! 

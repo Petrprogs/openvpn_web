@@ -53,8 +53,8 @@ class ManagementAPI:
                     "ip": split_string[2],
                     "virt_ip": split_string[3],
                     "virt_ip6": split_string[4],
-                    "received": split_string[5],
-                    "sent": split_string[6],
+                    "received": int(split_string[5]),
+                    "sent": int(split_string[6]),
                     "connected_since": split_string[7],
                 }
             )

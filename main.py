@@ -26,9 +26,11 @@ def home_page():
 @app.route("/clients")
 def clients_page():
     status = api.get_status_json()
+    
     return render_template(
         "clients.html",
-        clients=status["clients"]
+        clients=status["clients"],
+        convert_bytes=convert_bytes
     )
 
 def convert_bytes(size):

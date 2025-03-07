@@ -11,6 +11,6 @@ def sync():
     while True:
         with open("status.json", "w") as fl:
             print("file open")
-            json.dump(mng_api.get_status(), fl)
+            json.dump(mng_api.get_status(), fl, indent=4)
         print("file close")
         time.sleep(30)

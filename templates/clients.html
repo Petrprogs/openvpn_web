@@ -2,18 +2,22 @@
 {% block content %}
 <style>
     table {
+      text-align: center;
       font-family: arial, sans-serif;
       border-collapse: collapse;
-      width: 100%;
-      padding: 10px;
-      margin: 10px;
+      margin: 0px auto;
     }
     
     td, th {
-      color: white;
-      border: 2px solid #b9b9b9;
+      border: 1px solid #dddddd;
       text-align: left;
       padding: 8px;
+    }
+    th {
+        color: white;
+    }
+    td {
+        background-color: #D6EEEE;
     }
     
     tr:nth-child(even) {
@@ -23,12 +27,22 @@
 <table>
     <tr>
       <th>Name</th>
-      <th>Contact</th>
-      <th>Country</th>
+      <th>IP</th>
+      <th>Virtual IP</th>
+      <th>Received</th>
+      <th>Sent</th>
+      <th>Connected since</th>
     </tr>
     {% for client in clients %}
     <tr>
       <td>{{ client["name"]}}</td>
+      <td>{{ client["ip"]}}</td>
+      <td>{{ client["virt_ip"]}}</td>
+      {% set num = convert_bytes(client["sent"]) %}
+      <td >{{ num }}</td>
+      {% set num = convert_bytes(client["received"]) %}
+      <td>{{ num }}</td>
+      <td>{{ client["connected_since"]}}</td>
     </tr>
     {% endfor %}
 <script>

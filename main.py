@@ -3,9 +3,14 @@ from managment_api import ManagementAPI
 import status_sync
 from threading import Thread
 
+TELNET_HOST = "localhost"  # Openvpn management host
+TELNET_PORT = 7505  # Openvpn management port
+
 app = Flask(__name__)
-api = ManagementAPI()
-Thread(target=status_sync.sync).start()
+
+api = ManagementAPI(TELNET_HOST, TELNET_PORT) # Initialize API class
+Thread(target=status_sync.sync).start() # Start openvpn status sync thread
+
 
 @app.route("/")
 def home_page():
@@ -55,5 +60,4 @@ def convert_bytes(size):
     return f"{size:.2f} {units[unit_index]}"
 
 if __name__ == "__main__":
-    
     app.run("0.0.0.0", debug=False)

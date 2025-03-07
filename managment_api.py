@@ -12,7 +12,7 @@ class ManagementAPI:
         self.telnet_client = None
 
     def connect(self):
-        self.telnet_client = telnetlib.Telnet("localhost", 7505)
+        self.telnet_client = telnetlib.Telnet(self.host, self.port)
 
     def disconnect(self):
         self.telnet_client.close()

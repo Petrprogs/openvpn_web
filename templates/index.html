@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+        .rectangle {
+            color: white;
+            width: 250px;               /* Width of the rectangle */
+            height: 100px;              /* Height of the rectangle */
+            border: 2px solid #b9b9b9;     /* Border of the rectangle */
+            position: relative;          /* For absolute positioning of the text */
+            display: inline-flex;
+            flex-direction: column;      /* Align items vertically */
+            justify-content: space-between; /* Space between top text and bottom text */
+            padding: 10px;               /* Padding inside the rectangle */
+            box-sizing: border-box;      /* Include padding and border in the width/height */
+            margin: 10px;
+        }
+        .top-text {
+            text-align: center;          /* Center top text */
+            font-size: 20px;             /* Font size for top text */
+        }
+        .bottom-text {
+            text-align: center;          /* Center bottom text */
+            font-size: 16px;             /* Font size for bottom text */
+        }
+    </style>
+    <div class="rectangle">
+        <div class="top-text">Server's datetime</div>
+        <div class="bottom-text">{{ datetime }}</div>  
+    </div>
+    <div class="rectangle">
+        <div class="top-text">CPU load</div>
+        <div class="bottom-text">Current: {{ cpu_ld[0] }}%</div>  
+        <div class="bottom-text">Avg: {{ "% ".join(cpu_ld[1:]) }}%</div>      
+    </div>
+    <div class="rectangle">
+        <div class="top-text">RAM usage</div>
+        <div class="bottom-text">{{ mem[0] }}/{{ mem[1] }}</div>  
+    </div>
+    <div class="rectangle">
+        <div class="top-text">TUN all-time traffic</div>
+        <div class="bottom-text">RX {{ rx }}</div>
+        <div class="bottom-text">TX {{ tx }}</div>
+        
+    </div>
+    <div class="rectangle">
+        <div class="top-text">Connected clients</div>
+        <div class="bottom-text">{{ clients_count }} client(s)</div>  
+    </div>
+    <script>
+        document.querySelector("body > div.topnav > a:nth-child(1)").classList.add("active")
+    </script>    
+{% endblock %}

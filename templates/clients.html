@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+      padding: 10px;
+      margin: 10px;
+    }
+    
+    td, th {
+      color: white;
+      border: 2px solid #b9b9b9;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+</style>
+<table>
+    <tr>
+      <th>Name</th>
+      <th>Contact</th>
+      <th>Country</th>
+    </tr>
+    {% for client in clients %}
+    <tr>
+      <td>{{ client["name"]}}</td>
+    </tr>
+    {% endfor %}
+<script>
+    document.querySelector("body > div.topnav > a:nth-child(2)").classList.add("active")
+</script>
+{% endblock %}

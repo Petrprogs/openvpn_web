@@ -13,7 +13,8 @@ Client creation
 ![Client creation](https://github.com/user-attachments/assets/49c986b9-44f0-4d15-badf-4b5d45a25a95)
 
 Client revocation
-![изображение](https://github.com/user-attachments/assets/0265328d-bf51-488c-8c04-765905631c3c)
+![изображение](https://github.com/user-attachments/assets/0e5f4d61-b062-4f68-aef4-bede8aec3f80)
+
 
 ## TODO
 * Clients creation

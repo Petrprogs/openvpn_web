@@ -1,23 +1,41 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, send_file, redirect, make_response
 from managment_api import ManagementAPI
-import status_sync
-from threading import Thread
+from functools import wraps
+import os
 
-TELNET_HOST = "localhost"  # Openvpn management host
-TELNET_PORT = 7505  # Openvpn management port
+STATUS_LOG_PATH = "/var/log/openvpn/status.log"  # Path to status.log
+CONFIGS_STORE = "/root"
 
 app = Flask(__name__)
 
-api = ManagementAPI(TELNET_HOST, TELNET_PORT) # Initialize API class
-Thread(target=status_sync.sync).start() # Start openvpn status sync thread
+api = ManagementAPI(STATUS_LOG_PATH) # Initialize API class
+
+
+def basic_auth_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Check for the Authorization header
+        auth = request.authorization
+        if not auth or auth.username != "openvpn" or auth.password != "vpn":
+            # If authorization fails, prompt for login
+            return make_response(
+                "Could not verify!",
+                401,
+                {"WWW-Authenticate": 'Basic realm="Login required"'},
+            )
+
+        return f(*args, **kwargs)
+
+    return decorated_function
 
 
 @app.route("/")
+@basic_auth_required
 def home_page():
     tun_traff = api.get_tun_traffic()
     cpu_ld = api.get_cpu_load()
     mem = api.get_mem_free()
-    status = api.get_status_json()
+    status = api.get_status()
     return render_template(
         "index.html",
         rx=convert_bytes(tun_traff["received"]),
@@ -28,15 +46,51 @@ def home_page():
         datetime=status["datetime"]
     )
 
+
 @app.route("/clients")
+@basic_auth_required
 def clients_page():
-    status = api.get_status_json()
-    
+    status = api.get_status()
+
     return render_template(
         "clients.html",
         clients=status["clients"],
         convert_bytes=convert_bytes
     )
+
+
+@app.route("/add_client", methods=["GET", "POST"])
+@basic_auth_required
+def add_client_page():
+    if request.method.lower() == 'get':
+        return render_template(
+            "add_client.html"
+        )
+    else:
+        config = api.new_client(request.form.get("name"))
+        return render_template("download.html", config=config)
+
+
+@app.route("/download/<config>")
+@basic_auth_required
+def download(config):
+    if os.path.exists(f"{CONFIGS_STORE}/{config}"):
+        return send_file(f"{CONFIGS_STORE}/{config}")
+    else:
+        return "Not found"
+
+@app.route("/revoke_client")
+def revoke_clients_page():
+    clients = api.get_clients()
+    return render_template("revoke_client.html", clients=clients)
+
+
+@app.route("/revoke_client/<config>")
+@basic_auth_required
+def revoke_client_page(config):
+    clients = api.revoke_client(config)
+    return redirect("/revoke_client", 302)
+
 
 def convert_bytes(size):
     """

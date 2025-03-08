@@ -23,6 +23,12 @@
     tr:nth-child(even) {
       background-color: #dddddd;
     }
+
+    button {
+      margin: 10px;
+      width: 100px;
+      height: 25px;
+    }
 </style>
 <table>
     <tr>
@@ -45,6 +51,8 @@
       <td>{{ client["connected_since"]}}</td>
     </tr>
     {% endfor %}
+    <button onclick="document.location='/add_client'">Add client</button>
+    <button onclick="document.location='/revoke_client'">Revoke client</button>
 <script>
     document.querySelector("body > div.topnav > a:nth-child(2)").classList.add("active")
 </script>

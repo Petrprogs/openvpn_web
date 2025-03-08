@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    table {
+        text-align: center;
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        margin: 0px auto;
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        color: white;
+    }
+
+    td {
+        background-color: #D6EEEE;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    button {
+        margin: 10px;
+        width: 100px;
+        height: 25px;
+    }
+</style>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Action</th>
+    </tr>
+    {% for client in clients %}
+    <tr>
+        <td>{{ client }}</td>
+        <td><button onclick="document.location='revoke_client/{{ client }}'">Revoke</button></td>
+    </tr>
+    {% endfor %}
+    <script>
+        document.querySelector("body > div.topnav > a:nth-child(2)").classList.add("active")
+    </script>
+    {% endblock %}

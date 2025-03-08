@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    button {
+        margin: 10px;
+        width: 100px;
+        height: 25px;
+    }
+</style>
+<button onclick="document.location='/download/{{ config }}'">Download</button>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    form {
+        display: inline-grid;
+    }
+    label {
+        color: white;
+        margin: 5px;
+    }
+
+    input {
+        margin: 5px;
+    }
+</style>
+<form action="/add_client" method="post">
+    <label for="name">Client name</label>
+    <br>
+    <input type="text" id="name" name="name" placeholder="Client name">
+    <br>
+    <input type="submit" value="Create">
+</form>
+{% endblock %}

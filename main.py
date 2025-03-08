@@ -3,7 +3,9 @@ from managment_api import ManagementAPI
 from functools import wraps
 import os
 
-STATUS_LOG_PATH = "/var/log/openvpn/status.log"  # Path to status.log
+USERNAME = "openvpn"
+PASSWORD = "vpn"
+STATUS_LOG_PATH = "/var/log/openvpn/status.log"
 CONFIGS_STORE = "/root"
 
 app = Flask(__name__)
@@ -16,7 +18,7 @@ def basic_auth_required(f):
     def decorated_function(*args, **kwargs):
         # Check for the Authorization header
         auth = request.authorization
-        if not auth or auth.username != "openvpn" or auth.password != "vpn":
+        if not auth or auth.username != USERNAME or auth.password != PASSWORD:
             # If authorization fails, prompt for login
             return make_response(
                 "Could not verify!",
